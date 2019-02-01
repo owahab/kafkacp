@@ -1,4 +1,4 @@
-module kafkacp
+module github.com/owahab/kafkacp
 
 require (
 	github.com/aws/aws-sdk-go v1.16.26
