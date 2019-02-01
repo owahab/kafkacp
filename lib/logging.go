@@ -1,4 +1,4 @@
-package main
+package lib
 
 import (
 	"fmt"
@@ -8,9 +8,6 @@ import (
 
 const (
 	Success                                   = 0
-	ArgumentsTooFew                           = 1
-	ArgumentInvalidSource                     = 11
-	ArgumentInvalidDestination                = 12
 	FileSourceDirectoryDoesNotExist           = 20
 	FileSourceDirectoryNotReadable            = 21
 	FileSourceNotReadable                     = 22
@@ -30,7 +27,7 @@ type logger struct {
 	Verbose bool
 }
 
-func newLogger(verbose bool) *logger {
+func NewLogger(verbose bool) *logger {
 	return &logger{Verbose: verbose}
 }
 

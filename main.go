@@ -3,11 +3,19 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/owahab/kafkacp/lib"
 	"net/url"
 	"os"
 )
 
 const Version = "0.1.0"
+
+const (
+	Success                    = 0
+	ArgumentsTooFew            = 1
+	ArgumentInvalidSource      = 11
+	ArgumentInvalidDestination = 12
+)
 
 func main() {
 	flag.Usage = func() {
@@ -27,7 +35,7 @@ Flags:
 	verbose := flag.Bool("d", false, "Turn verbose output on")
 	displayVersion := flag.Bool("v", false, "Display version and exit")
 	flag.Parse()
-	l := newLogger(*verbose)
+	l := lib.NewLogger(*verbose)
 
 	if *displayVersion {
 		l.Exit(Success, os.Args[0], "version", Version)
@@ -53,12 +61,12 @@ Flags:
 
 	l.Info("Kafka snapshot started!")
 
-	messages := make(chan Message)
+	messages := make(chan lib.Message)
 	done := make(chan bool)
 
 	// unbuffered channel, we need to start the writer first
-	go buildStage(*l, *destinationUrl).Write(messages, done)
-	go buildStage(*l, *sourceUrl).Read(messages)
+	go lib.BuildStage(*l, *destinationUrl).Write(messages, done)
+	go lib.BuildStage(*l, *sourceUrl).Read(messages)
 
 	// wait for the done signal
 	<-done

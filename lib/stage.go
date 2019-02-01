@@ -1,4 +1,4 @@
-package main
+package lib
 
 import "net/url"
 
@@ -12,7 +12,7 @@ type Stage interface {
 }
 
 // is there a better way to do this? I don't know yet.
-func buildStage(l logger, url url.URL) Stage {
+func BuildStage(l logger, url url.URL) Stage {
 	var stage Stage
 
 	switch url.Scheme {
